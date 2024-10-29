@@ -11,12 +11,19 @@
 // Import Routes
 
 import { Route as rootRoute } from './routes/__root'
+import { Route as RegisterImport } from './routes/register'
 import { Route as LoginImport } from './routes/login'
 import { Route as UploadImport } from './routes/Upload'
 import { Route as JobdescriptionImport } from './routes/Jobdescription'
 import { Route as IndexImport } from './routes/index'
 
 // Create/Update Routes
+
+const RegisterRoute = RegisterImport.update({
+  id: '/register',
+  path: '/register',
+  getParentRoute: () => rootRoute,
+} as any)
 
 const LoginRoute = LoginImport.update({
   id: '/login',
@@ -74,6 +81,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof LoginImport
       parentRoute: typeof rootRoute
     }
+    '/register': {
+      id: '/register'
+      path: '/register'
+      fullPath: '/register'
+      preLoaderRoute: typeof RegisterImport
+      parentRoute: typeof rootRoute
+    }
   }
 }
 
@@ -84,6 +98,7 @@ export interface FileRoutesByFullPath {
   '/Jobdescription': typeof JobdescriptionRoute
   '/Upload': typeof UploadRoute
   '/login': typeof LoginRoute
+  '/register': typeof RegisterRoute
 }
 
 export interface FileRoutesByTo {
@@ -91,6 +106,7 @@ export interface FileRoutesByTo {
   '/Jobdescription': typeof JobdescriptionRoute
   '/Upload': typeof UploadRoute
   '/login': typeof LoginRoute
+  '/register': typeof RegisterRoute
 }
 
 export interface FileRoutesById {
@@ -99,14 +115,15 @@ export interface FileRoutesById {
   '/Jobdescription': typeof JobdescriptionRoute
   '/Upload': typeof UploadRoute
   '/login': typeof LoginRoute
+  '/register': typeof RegisterRoute
 }
 
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/Jobdescription' | '/Upload' | '/login'
+  fullPaths: '/' | '/Jobdescription' | '/Upload' | '/login' | '/register'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/Jobdescription' | '/Upload' | '/login'
-  id: '__root__' | '/' | '/Jobdescription' | '/Upload' | '/login'
+  to: '/' | '/Jobdescription' | '/Upload' | '/login' | '/register'
+  id: '__root__' | '/' | '/Jobdescription' | '/Upload' | '/login' | '/register'
   fileRoutesById: FileRoutesById
 }
 
@@ -115,6 +132,7 @@ export interface RootRouteChildren {
   JobdescriptionRoute: typeof JobdescriptionRoute
   UploadRoute: typeof UploadRoute
   LoginRoute: typeof LoginRoute
+  RegisterRoute: typeof RegisterRoute
 }
 
 const rootRouteChildren: RootRouteChildren = {
@@ -122,6 +140,7 @@ const rootRouteChildren: RootRouteChildren = {
   JobdescriptionRoute: JobdescriptionRoute,
   UploadRoute: UploadRoute,
   LoginRoute: LoginRoute,
+  RegisterRoute: RegisterRoute,
 }
 
 export const routeTree = rootRoute
@@ -139,7 +158,8 @@ export const routeTree = rootRoute
         "/",
         "/Jobdescription",
         "/Upload",
-        "/login"
+        "/login",
+        "/register"
       ]
     },
     "/": {
@@ -153,6 +173,9 @@ export const routeTree = rootRoute
     },
     "/login": {
       "filePath": "login.tsx"
+    },
+    "/register": {
+      "filePath": "register.tsx"
     }
   }
 }

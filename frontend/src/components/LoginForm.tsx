@@ -15,7 +15,7 @@ const LoginForm:React.FC<LoginFormProps> = ({className})=>{
         <Card className={`${className}`}>
             <CardHeader>
                 <CardTitle className="text-xl ">
-                    LOGIN FORM 
+                    LOGIN 
                 </CardTitle>
             </CardHeader>
             <CardContent>
@@ -36,7 +36,7 @@ const LoginForm:React.FC<LoginFormProps> = ({className})=>{
             </CardContent>
             <CardFooter className="grid grid-cols-2 ">
                 <Button className="">LOGIN</Button>
-                <Link to='/register' className="flex justify-center ">
+                <Link to='/' className="flex justify-center ">
                     <Button variant="link" className="text-white">Register</Button>
                 </Link>
 

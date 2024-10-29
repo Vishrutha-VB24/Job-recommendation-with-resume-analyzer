@@ -8,7 +8,7 @@ export const Route = createFileRoute('/login')({
 
 function login(){
     return(
-      <div className='flex justify-center h-screen flex-col items-center ' style={{ 
+      <div className='flex justify-center h-screen flex-col items-center bg-black ' style={{ 
 
          }}>
         <LoginForm className=""></LoginForm>
