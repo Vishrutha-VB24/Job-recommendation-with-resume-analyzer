@@ -1,6 +1,3 @@
-
-
-
 import { Link } from "@tanstack/react-router"
 import { Button } from "./ui/button"
 import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "./ui/card"
@@ -12,13 +9,23 @@ type LoginFormProps = {
     className: string
 }
 
-const LoginForm:React.FC<LoginFormProps> = ({className})=>{
-    return(
-
-        <Card className={`${className}`}>
-            <CardHeader>
-                <CardTitle className="text-xl ">
-                    LOGIN 
+const LoginForm: React.FC<LoginFormProps> = ({ className }) => {
+    return (
+        <Card 
+            className={`${className} w-96 h-97 p-x-2 shadow-lg relative`} 
+            style={{
+                borderColor: "black",
+                border: '2px solid rgba(0, 0, 0, 0.3)',
+                borderTopRightRadius: '6rem',  
+                borderTopLeftRadius: '0',     
+                borderBottomRightRadius: '0', 
+                borderBottomLeftRadius: '0',   
+                boxShadow: '-14px 14px 2px rgba(0, 0, 0, 0.3)', 
+            }}
+        >
+            <CardHeader className="mb-4">
+                <CardTitle className="text-2xl font-bold text-gray-900">
+                    LOGIN
                 </CardTitle>
             </CardHeader>
 
@@ -37,7 +44,7 @@ const LoginForm:React.FC<LoginFormProps> = ({className})=>{
                 <div className="flex flex-col space-y-1">
                     <Label className="flex justify-between text-sm font-medium text-gray-700">
                         Password
-                        <Link to='/forgot-password' className="text-xs text-black hover:underline italic font-normal">
+                        <Link to='/' className="text-xs text-black hover:underline italic font-normal">
                             forgot password?
                         </Link>
                     </Label>
@@ -49,14 +56,12 @@ const LoginForm:React.FC<LoginFormProps> = ({className})=>{
             </CardContent>
 
             <CardFooter className="mt-6 flex flex-col items-center space-y-4">
-                {/* Login Button */}
                 <Button 
                     className="w-full py-2 bg-yellow-500 text-white font-semibold rounded-md hover:bg-yellow-600 transition-all duration-150"
                 >
                     Login
                 </Button>
 
-                {/* Sign Up Link */}
                 <div className="text-sm text-gray-600">
                     New around here? <Link to='/register' className="text-blue-500 hover:underline italic">Sign up</Link>
                 </div>
