@@ -19,11 +19,11 @@ const LoginForm: React.FC<LoginFormProps> = ({ className }) => {
             style={{
                 borderColor: "black",
                 border: '2px solid rgba(0, 0, 0, 0.3)',
-                borderTopRightRadius: '6rem',  // Custom large border radius for top-right corner
-                borderTopLeftRadius: '0',      // No rounding on top-left
-                borderBottomRightRadius: '0',  // No rounding on bottom-right
-                borderBottomLeftRadius: '0',   // No rounding on bottom-left
-                boxShadow: '-14px 14px 2px rgba(0, 0, 0, 0.3)', // Soft, lifted shadow effect
+                borderTopRightRadius: '6rem',  
+                borderTopLeftRadius: '0',     
+                borderBottomRightRadius: '0', 
+                borderBottomLeftRadius: '0',   
+                boxShadow: '-14px 14px 2px rgba(0, 0, 0, 0.3)', 
             }}
         >
             <CardHeader className="mb-4">
