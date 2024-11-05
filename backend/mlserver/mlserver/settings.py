@@ -11,6 +11,16 @@ https://docs.djangoproject.com/en/4.2/ref/settings/
 """
 
 from pathlib import Path
+import os
+from dotenv import load_dotenv
+
+# Load .env file
+load_dotenv()
+
+# Now you can use the variables from .env
+APPWRITE_PROJECT=os.getenv("67212a4e0039f3e385d4")
+APPWRITE_API_KEY=os.getenv("standard_a1fe7fcbc6ba5bd35754c4aec77a8aac5c62417785a13316818c7becd7388898269bac83599ba65a496839cac8a59b453c6b72186a2de4d8d24d1d6da00fb6f6472ffa839ea5cbd798ed028f64a767597dca3b0cf3c54882d9798f442579a2fdb27619cd5bbb9365b328698c6851b6add53252f182526d7a40cc41ca1b4418b5")
+
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
