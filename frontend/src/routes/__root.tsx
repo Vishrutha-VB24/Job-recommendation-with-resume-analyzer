@@ -1,3 +1,4 @@
+import { Logout } from '@/components/Logout'
 import { createRootRoute, Link, Outlet } from '@tanstack/react-router'
 import { TanStackRouterDevtools } from '@tanstack/router-devtools'
 
@@ -18,7 +19,7 @@ export const Route = createRootRoute({
         <div className='logo'>
             <h1 className='text-2xl font-semibold'>RESUME TO JOB</h1>
         </div>
-        <div className='navlist w-40 '>
+        <div className='navlist  '>
           <ul className='flex gap-5'>
             <li>
               <Link to="/" className="[&.active]:font-bold">
@@ -35,6 +36,7 @@ export const Route = createRootRoute({
                 REGISTER
               </Link>
             </li>
+            <li><Logout></Logout></li>
           </ul>
 
         </div>
