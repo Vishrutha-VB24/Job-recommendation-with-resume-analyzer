@@ -14,10 +14,10 @@ export const Route = createRootRoute({
         </div>
       </nav> */}
       <nav
-        className='fixed top-0 left-0 bg-primary/70 h-[3.5rem] w-screen px-16 flex justify-between items-center'
+        className='fixed top-0 left-0 bg-primary h-[3.5rem] w-screen px-16 flex justify-between items-center text-white'
       >
         <div className='logo'>
-            <h1 className='text-2xl font-semibold'>RESUME TO JOB</h1>
+            <h1 className='text-2xl  font-semibold'>RESUME TO JOB</h1>
         </div>
         <div className='navlist  '>
           <ul className='flex gap-5'>

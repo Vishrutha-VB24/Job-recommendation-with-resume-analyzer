@@ -55,16 +55,16 @@ export default function Register() {
             </div>
             <div>
               <label htmlFor="password" className="block text-sm font-medium text-gray-700">Password</label>
-              <Input id="password" placeholder="••••••••" type="password" className="w-full mt-1" ref={passwordRef} />
+              <Input id="password" placeholder="" type="password" className="w-full mt-1" ref={passwordRef} />
             </div>
             <div>
               <label htmlFor="confirmPassword" className="block text-sm font-medium text-gray-700">Confirm Password</label>
-              <Input id="confirmPassword" placeholder="confrimPassword" type="password" className="w-full mt-1" ref={confirmPasswordRef} />
+              <Input id="confirmPassword" placeholder="" type="password" className="w-full mt-1" ref={confirmPasswordRef} />
             </div>
           </form>
         </CardContent>
         <CardFooter className="grid w-full grid-cols-2">
-          <Button className="col-span-2 w-1/2 mx-auto" onClick={register}>Register</Button>
+          <Button className="col-span-2 w-1/2 mx-auto bg-primary/80" onClick={register}>Register</Button>
           <p className="mt-4 text-center text-sm text-gray-600 col-span-2">
             New around here?{" "}
             <a href="/login" className="text-blue-600 hover:underline">
