@@ -11,19 +11,13 @@
 // Import Routes
 
 import { Route as rootRoute } from './routes/__root'
-import { Route as UploadImport } from './routes/upload'
 import { Route as RegisterImport } from './routes/register'
 import { Route as LoginImport } from './routes/login'
+import { Route as UploadImport } from './routes/Upload'
 import { Route as JobdescriptionImport } from './routes/Jobdescription'
 import { Route as IndexImport } from './routes/index'
 
 // Create/Update Routes
-
-const UploadRoute = UploadImport.update({
-  id: '/upload',
-  path: '/upload',
-  getParentRoute: () => rootRoute,
-} as any)
 
 const RegisterRoute = RegisterImport.update({
   id: '/register',
@@ -34,6 +28,12 @@ const RegisterRoute = RegisterImport.update({
 const LoginRoute = LoginImport.update({
   id: '/login',
   path: '/login',
+  getParentRoute: () => rootRoute,
+} as any)
+
+const UploadRoute = UploadImport.update({
+  id: '/Upload',
+  path: '/Upload',
   getParentRoute: () => rootRoute,
 } as any)
 
@@ -67,6 +67,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof JobdescriptionImport
       parentRoute: typeof rootRoute
     }
+    '/Upload': {
+      id: '/Upload'
+      path: '/Upload'
+      fullPath: '/Upload'
+      preLoaderRoute: typeof UploadImport
+      parentRoute: typeof rootRoute
+    }
     '/login': {
       id: '/login'
       path: '/login'
@@ -81,13 +88,6 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof RegisterImport
       parentRoute: typeof rootRoute
     }
-    '/upload': {
-      id: '/upload'
-      path: '/upload'
-      fullPath: '/upload'
-      preLoaderRoute: typeof UploadImport
-      parentRoute: typeof rootRoute
-    }
   }
 }
 
@@ -96,51 +96,51 @@ declare module '@tanstack/react-router' {
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/Jobdescription': typeof JobdescriptionRoute
+  '/Upload': typeof UploadRoute
   '/login': typeof LoginRoute
   '/register': typeof RegisterRoute
-  '/upload': typeof UploadRoute
 }
 
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/Jobdescription': typeof JobdescriptionRoute
+  '/Upload': typeof UploadRoute
   '/login': typeof LoginRoute
   '/register': typeof RegisterRoute
-  '/upload': typeof UploadRoute
 }
 
 export interface FileRoutesById {
   __root__: typeof rootRoute
   '/': typeof IndexRoute
   '/Jobdescription': typeof JobdescriptionRoute
+  '/Upload': typeof UploadRoute
   '/login': typeof LoginRoute
   '/register': typeof RegisterRoute
-  '/upload': typeof UploadRoute
 }
 
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/Jobdescription' | '/login' | '/register' | '/upload'
+  fullPaths: '/' | '/Jobdescription' | '/Upload' | '/login' | '/register'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/Jobdescription' | '/login' | '/register' | '/upload'
-  id: '__root__' | '/' | '/Jobdescription' | '/login' | '/register' | '/upload'
+  to: '/' | '/Jobdescription' | '/Upload' | '/login' | '/register'
+  id: '__root__' | '/' | '/Jobdescription' | '/Upload' | '/login' | '/register'
   fileRoutesById: FileRoutesById
 }
 
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   JobdescriptionRoute: typeof JobdescriptionRoute
+  UploadRoute: typeof UploadRoute
   LoginRoute: typeof LoginRoute
   RegisterRoute: typeof RegisterRoute
-  UploadRoute: typeof UploadRoute
 }
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   JobdescriptionRoute: JobdescriptionRoute,
+  UploadRoute: UploadRoute,
   LoginRoute: LoginRoute,
   RegisterRoute: RegisterRoute,
-  UploadRoute: UploadRoute,
 }
 
 export const routeTree = rootRoute
@@ -157,9 +157,9 @@ export const routeTree = rootRoute
       "children": [
         "/",
         "/Jobdescription",
+        "/Upload",
         "/login",
-        "/register",
-        "/upload"
+        "/register"
       ]
     },
     "/": {
@@ -168,14 +168,14 @@ export const routeTree = rootRoute
     "/Jobdescription": {
       "filePath": "Jobdescription.tsx"
     },
+    "/Upload": {
+      "filePath": "Upload.tsx"
+    },
     "/login": {
       "filePath": "login.tsx"
     },
     "/register": {
       "filePath": "register.tsx"
-    },
-    "/upload": {
-      "filePath": "upload.tsx"
     }
   }
 }

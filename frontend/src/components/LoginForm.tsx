@@ -84,7 +84,7 @@ const LoginForm: React.FC<LoginFormProps> = ({ className }) => {
             <CardFooter className="mt-6 flex flex-col items-center space-y-4">
                 <Button 
                     onClick={login} // Trigger login on button click
-                    className="w-full py-2 bg-orange-500 text-white font-semibold rounded-md hover:bg-yellow-600 transition-all duration-150"
+                    className="w-full py-2 bg-orange-500 text-white font-semibold rounded-md hover:bg-orange-500 transition-all duration-150"
                 >
                     Login
                 </Button>
