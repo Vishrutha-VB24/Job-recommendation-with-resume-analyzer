@@ -55,11 +55,11 @@ export default function Register() {
             </div>
             <div>
               <label htmlFor="password" className="block text-sm font-medium text-gray-700">Password</label>
-              <Input id="password" placeholder="" type="password" className="w-full mt-1" ref={passwordRef} />
+              <Input id="password" type="password" className="w-full mt-1" ref={passwordRef} />
             </div>
             <div>
               <label htmlFor="confirmPassword" className="block text-sm font-medium text-gray-700">Confirm Password</label>
-              <Input id="confirmPassword" placeholder="" type="password" className="w-full mt-1" ref={confirmPasswordRef} />
+              <Input id="confirmPassword"  type="password" className="w-full mt-1" ref={confirmPasswordRef} />
             </div>
           </form>
         </CardContent>
