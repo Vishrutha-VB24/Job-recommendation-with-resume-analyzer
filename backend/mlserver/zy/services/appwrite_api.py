@@ -18,7 +18,7 @@ class AppwriteClient:
         self.storage = Storage(self.client)  
 
     def get_file(self, bucket_id, file_id):
-        return self.storage.get_file(bucket_id=bucket_id, file_id=file_id)
+        return self.storage.get_file_download(bucket_id=bucket_id, file_id=file_id)
 
 
 

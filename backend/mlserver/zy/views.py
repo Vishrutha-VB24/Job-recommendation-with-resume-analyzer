@@ -28,15 +28,26 @@ def file_to_text(request):
 
             print(result)
 
-            # Convert the downloaded file to text
-            file_content = BytesIO(result).read().decode('utf-8')
+            # # Convert the downloaded file to text
+            # file_content = BytesIO(result).read().decode('utf-8')
+
+            # response_data = {
+            #     "document_id": document_id,
+            #     "file_text": file_content
+            # }
+            # return JsonResponse(response_data, status=200)
+             # Load the PDF content into PyMuPDF
+            pdf_data = BytesIO(result)
+            pdf_text = ""
+            with fitz.open(stream=pdf_data, filetype="pdf") as pdf_document:
+                for page in pdf_document:
+                    pdf_text += page.get_text()
 
             response_data = {
                 "document_id": document_id,
-                "file_text": file_content
+                "file_text": pdf_text
             }
             return JsonResponse(response_data, status=200)
-
         except json.JSONDecodeError:
             return JsonResponse({"error": "Invalid JSON format"}, status=400)
         except Exception as e:
