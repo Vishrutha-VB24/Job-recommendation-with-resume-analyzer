@@ -18,3 +18,25 @@ class AppwriteClient:
 
     def create_job(self, data):
         return self.database.create_document(os.getenv("APPWRITE_DATABASE_ID"), os.getenv("APPWRITE_JOB_COLLECTION"), document_id="unique()" ,data=data)
+
+    def add_domain(self, data):
+        domain = data['name']
+        if not domain:
+            raise ValueError("Domain is required in data.")
+
+        print('hi')
+        existing_domains = self.database.list_documents(
+            database_id=os.getenv("APPWRITE_DATABASE_ID"),
+            collection_id=os.getenv("APPWRITE_DOMAIN_COLLECTION"),
+        )
+
+        for doc in existing_domains.get('documents', []):
+            if doc.get('name') == domain:
+                return {"message": "Domain already exists.", "status": "exists"}
+
+        return self.database.create_document(
+            database_id=os.getenv("APPWRITE_DATABASE_ID"),
+            collection_id=os.getenv("APPWRITE_DOMAIN_COLLECTION"),
+            document_id="unique()",
+            data=data
+        )

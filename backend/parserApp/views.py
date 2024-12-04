@@ -84,6 +84,7 @@ def create_job_posting(request):
             document = appwrite_client.create_job(
                 data=job_posting_data
             )
+            domain = appwrite_client.add_domain({"name": parsed_data["domain"]})
 
             return JsonResponse({"message": "Job posting created successfully", "document": document}, status=201)
 
