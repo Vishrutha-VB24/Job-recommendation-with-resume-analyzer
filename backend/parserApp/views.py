@@ -77,7 +77,8 @@ def create_job_posting(request):
                 "description": description,
                 "skills": parsed_data["skills"],
                 "exp": parsed_data["experience_req"],
-                "type": parsed_data["type"]
+                "type": parsed_data["type"],
+                "domain": parsed_data["domain"]
             }
 
             document = appwrite_client.create_job(
