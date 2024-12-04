@@ -8,5 +8,5 @@ const index = ()=> {
 
 
 export const Route = createFileRoute('/')({
-  component: () => index,
+  component: index,
 })

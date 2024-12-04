@@ -1,10 +1,11 @@
-import { Link } from "@tanstack/react-router";
+import {Link, useNavigate} from "@tanstack/react-router";
 import { Button } from "./ui/button";
 import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "./ui/card";
 import { Input } from "./ui/input";
 import { Label } from "./ui/label";
 import React, { useRef } from "react";
 import authService from "../appwrite/auth";
+import useAuthStore from "@/store/authStore.ts";
 
 type LoginFormProps = {
     className: string;
@@ -13,7 +14,8 @@ type LoginFormProps = {
 const LoginForm: React.FC<LoginFormProps> = ({ className }) => {
     const emailRef = useRef(null);
     const passwordRef = useRef(null);
-
+    const {setUserInfo} = useAuthStore();
+    const navigate = useNavigate();
     async function login() {
         try {
             // Capture email and password values
@@ -22,12 +24,8 @@ const LoginForm: React.FC<LoginFormProps> = ({ className }) => {
 
             // Call authService to attempt login
             const userinfo = await authService.login({ email, password });
-
-
-
-            // Handle successful login (redirect or show success message)
-            console.log("Login successful!");
-            console.log(userinfo);
+            setUserInfo(userinfo)
+            navigate({to: '/profile'})
         } catch (error) {
             // Handle error (show error message)
             console.error("Login failed:", error.message);

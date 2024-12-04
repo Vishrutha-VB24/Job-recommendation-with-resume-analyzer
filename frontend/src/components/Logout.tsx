@@ -1,41 +1,16 @@
-// import { Button } from "@/components/ui/button";
-// import authService from "../appwrite/auth";
-// import useauthStore from "@/store/authStore";
-
-
-// export function Logout() {
-//     const clearUserInfo = useauthStore((state) => state.clearUserInfo);
-
-//     async function logout(){
-//         try {
-//             await authService.logout()
-//             alert("Logout successfull")
-//             clearUserInfo()
-//         } catch (error) {
-//             console.log(error)
-//         }
-//     }
-    
-
-//   return <Button onClick={logout} >LOGOUT</Button>
-// }
-
-
-
-
-import { useState } from 'react';
 import authService from "../appwrite/auth";
 import useauthStore from "@/store/authStore";
+import {useRouter} from "@tanstack/react-router";
 
-export function Logout({ isActive, onClick }) {
+export function Logout() {
     const clearUserInfo = useauthStore((state) => state.clearUserInfo);
-
+    const router = useRouter();
     async function logout() {
         try {
             await authService.logout();
             alert("Logout successful");
             clearUserInfo();
-            onClick(); 
+            router.invalidate();
         } catch (error) {
             console.log(error);
         }
@@ -47,7 +22,6 @@ export function Logout({ isActive, onClick }) {
             style={{
                 cursor: "pointer",
             }}
-            className={`${isActive ? 'font-bold' : ''}`}
         >
             LOGOUT
         </span>

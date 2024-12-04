@@ -1,13 +1,28 @@
 import { create } from 'zustand';
+import { persist } from 'zustand/middleware';
 
-const useauthStore = create((set) => ({
-  userInfo: null,  // Initialize userInfo to null
-  
-  // Method to set the userInfo
-  setUserInfo: (userData: object) => set({ userInfo: userData }),
+interface AuthStore {
+  userInfo: object | null;
+  setUserInfo: (userData: object) => void;
+  clearUserInfo: () => void;
+}
 
-  // Method to clear the userInfo (set it to null)
-  clearUserInfo: () => set({ userInfo: null }),
-}));
+const useAuthStore = create<AuthStore>()(
+  persist(
+    (set) => ({
+      userInfo: null,
 
-export default useauthStore;
+      setUserInfo: (userData) => set({ userInfo: userData }),
+
+      clearUserInfo: () => set({ userInfo: null }),
+    }),
+    {
+      name: 'resume2job-auth-store',
+    }
+  )
+);
+
+export default useAuthStore;
+export type AuthStoreType = ReturnType<typeof useAuthStore>;
+
+

@@ -13,9 +13,11 @@
 import { Route as rootRoute } from './routes/__root'
 import { Route as RegisterImport } from './routes/register'
 import { Route as LoginImport } from './routes/login'
-import { Route as UploadImport } from './routes/Upload'
+import { Route as AuthenticatedImport } from './routes/_authenticated'
 import { Route as JobdescriptionImport } from './routes/Jobdescription'
 import { Route as IndexImport } from './routes/index'
+import { Route as AuthenticatedUploadImport } from './routes/_authenticated/upload'
+import { Route as AuthenticatedProfileImport } from './routes/_authenticated/profile'
 
 // Create/Update Routes
 
@@ -31,9 +33,8 @@ const LoginRoute = LoginImport.update({
   getParentRoute: () => rootRoute,
 } as any)
 
-const UploadRoute = UploadImport.update({
-  id: '/Upload',
-  path: '/Upload',
+const AuthenticatedRoute = AuthenticatedImport.update({
+  id: '/_authenticated',
   getParentRoute: () => rootRoute,
 } as any)
 
@@ -47,6 +48,18 @@ const IndexRoute = IndexImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => rootRoute,
+} as any)
+
+const AuthenticatedUploadRoute = AuthenticatedUploadImport.update({
+  id: '/upload',
+  path: '/upload',
+  getParentRoute: () => AuthenticatedRoute,
+} as any)
+
+const AuthenticatedProfileRoute = AuthenticatedProfileImport.update({
+  id: '/profile',
+  path: '/profile',
+  getParentRoute: () => AuthenticatedRoute,
 } as any)
 
 // Populate the FileRoutesByPath interface
@@ -67,11 +80,11 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof JobdescriptionImport
       parentRoute: typeof rootRoute
     }
-    '/Upload': {
-      id: '/Upload'
-      path: '/Upload'
-      fullPath: '/Upload'
-      preLoaderRoute: typeof UploadImport
+    '/_authenticated': {
+      id: '/_authenticated'
+      path: ''
+      fullPath: ''
+      preLoaderRoute: typeof AuthenticatedImport
       parentRoute: typeof rootRoute
     }
     '/login': {
@@ -88,49 +101,105 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof RegisterImport
       parentRoute: typeof rootRoute
     }
+    '/_authenticated/profile': {
+      id: '/_authenticated/profile'
+      path: '/profile'
+      fullPath: '/profile'
+      preLoaderRoute: typeof AuthenticatedProfileImport
+      parentRoute: typeof AuthenticatedImport
+    }
+    '/_authenticated/upload': {
+      id: '/_authenticated/upload'
+      path: '/upload'
+      fullPath: '/upload'
+      preLoaderRoute: typeof AuthenticatedUploadImport
+      parentRoute: typeof AuthenticatedImport
+    }
   }
 }
 
 // Create and export the route tree
 
+interface AuthenticatedRouteChildren {
+  AuthenticatedProfileRoute: typeof AuthenticatedProfileRoute
+  AuthenticatedUploadRoute: typeof AuthenticatedUploadRoute
+}
+
+const AuthenticatedRouteChildren: AuthenticatedRouteChildren = {
+  AuthenticatedProfileRoute: AuthenticatedProfileRoute,
+  AuthenticatedUploadRoute: AuthenticatedUploadRoute,
+}
+
+const AuthenticatedRouteWithChildren = AuthenticatedRoute._addFileChildren(
+  AuthenticatedRouteChildren,
+)
+
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/Jobdescription': typeof JobdescriptionRoute
-  '/Upload': typeof UploadRoute
+  '': typeof AuthenticatedRouteWithChildren
   '/login': typeof LoginRoute
   '/register': typeof RegisterRoute
+  '/profile': typeof AuthenticatedProfileRoute
+  '/upload': typeof AuthenticatedUploadRoute
 }
 
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/Jobdescription': typeof JobdescriptionRoute
-  '/Upload': typeof UploadRoute
+  '': typeof AuthenticatedRouteWithChildren
   '/login': typeof LoginRoute
   '/register': typeof RegisterRoute
+  '/profile': typeof AuthenticatedProfileRoute
+  '/upload': typeof AuthenticatedUploadRoute
 }
 
 export interface FileRoutesById {
   __root__: typeof rootRoute
   '/': typeof IndexRoute
   '/Jobdescription': typeof JobdescriptionRoute
-  '/Upload': typeof UploadRoute
+  '/_authenticated': typeof AuthenticatedRouteWithChildren
   '/login': typeof LoginRoute
   '/register': typeof RegisterRoute
+  '/_authenticated/profile': typeof AuthenticatedProfileRoute
+  '/_authenticated/upload': typeof AuthenticatedUploadRoute
 }
 
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/Jobdescription' | '/Upload' | '/login' | '/register'
+  fullPaths:
+    | '/'
+    | '/Jobdescription'
+    | ''
+    | '/login'
+    | '/register'
+    | '/profile'
+    | '/upload'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/Jobdescription' | '/Upload' | '/login' | '/register'
-  id: '__root__' | '/' | '/Jobdescription' | '/Upload' | '/login' | '/register'
+  to:
+    | '/'
+    | '/Jobdescription'
+    | ''
+    | '/login'
+    | '/register'
+    | '/profile'
+    | '/upload'
+  id:
+    | '__root__'
+    | '/'
+    | '/Jobdescription'
+    | '/_authenticated'
+    | '/login'
+    | '/register'
+    | '/_authenticated/profile'
+    | '/_authenticated/upload'
   fileRoutesById: FileRoutesById
 }
 
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   JobdescriptionRoute: typeof JobdescriptionRoute
-  UploadRoute: typeof UploadRoute
+  AuthenticatedRoute: typeof AuthenticatedRouteWithChildren
   LoginRoute: typeof LoginRoute
   RegisterRoute: typeof RegisterRoute
 }
@@ -138,7 +207,7 @@ export interface RootRouteChildren {
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   JobdescriptionRoute: JobdescriptionRoute,
-  UploadRoute: UploadRoute,
+  AuthenticatedRoute: AuthenticatedRouteWithChildren,
   LoginRoute: LoginRoute,
   RegisterRoute: RegisterRoute,
 }
@@ -157,7 +226,7 @@ export const routeTree = rootRoute
       "children": [
         "/",
         "/Jobdescription",
-        "/Upload",
+        "/_authenticated",
         "/login",
         "/register"
       ]
@@ -168,14 +237,26 @@ export const routeTree = rootRoute
     "/Jobdescription": {
       "filePath": "Jobdescription.tsx"
     },
-    "/Upload": {
-      "filePath": "Upload.tsx"
+    "/_authenticated": {
+      "filePath": "_authenticated.tsx",
+      "children": [
+        "/_authenticated/profile",
+        "/_authenticated/upload"
+      ]
     },
     "/login": {
       "filePath": "login.tsx"
     },
     "/register": {
       "filePath": "register.tsx"
+    },
+    "/_authenticated/profile": {
+      "filePath": "_authenticated/profile.tsx",
+      "parent": "/_authenticated"
+    },
+    "/_authenticated/upload": {
+      "filePath": "_authenticated/upload.tsx",
+      "parent": "/_authenticated"
     }
   }
 }
