@@ -1,6 +1,7 @@
 from appwrite.client import Client
 from appwrite.services.databases import Databases
 from appwrite.services.storage import Storage
+from appwrite.query import Query
 import os
 
 class AppwriteClient:
@@ -40,3 +41,30 @@ class AppwriteClient:
             document_id="unique()",
             data=data
         )
+    def get_user_info(self, user_id):
+        try:
+            documents = self.database.list_documents(
+                database_id=os.getenv("APPWRITE_DATABASE_ID"),
+                collection_id=os.getenv("APPWRITE_USER_COLLECTION_ID"),
+                queries=[Query.equal('userId', user_id), Query.select(['skills', 'exp', 'type'])]
+            )
+            if documents.get('total', 0) > 0:
+                return documents['documents'][0]  # Return the first matching document
+            else:
+                return {"message": "User not found."}
+        except Exception as e:
+            return {"error": str(e)}
+
+    def list_all_jobs(self):
+        try:
+            documents =  self.database.list_documents(
+                database_id=os.getenv("APPWRITE_DATABASE_ID"),
+                collection_id=os.getenv("APPWRITE_JOB_COLLECTION"),
+            )
+            if documents.get('total', 0) > 0:
+                return documents['documents']  # Return the first matching document
+            else:
+                return {"message": "User not found."}
+
+        except Exception as e:
+            return {"error": str(e)}

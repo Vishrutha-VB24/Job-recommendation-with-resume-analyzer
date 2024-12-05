@@ -22,13 +22,13 @@ const LoginForm: React.FC<LoginFormProps> = ({ className }) => {
             const email = emailRef.current.value;
             const password = passwordRef.current.value;
 
-            // Call authService to attempt login
             const userinfo = await authService.login({ email, password });
             setUserInfo(userinfo)
-            navigate({to: '/profile'})
+            navigate({to: '/'})
         } catch (error) {
             // Handle error (show error message)
             console.error("Login failed:", error.message);
+            alert(error.message)
         }
     }
 
@@ -65,11 +65,8 @@ const LoginForm: React.FC<LoginFormProps> = ({ className }) => {
 
                 {/* Password Field with "Forgot Password" Link */}
                 <div className="flex flex-col space-y-1">
-                    <Label className="flex justify-between text-sm font-medium text-gray-700">
+                    <Label className="flex justify-start text-sm font-medium text-gray-700">
                         Password
-                        <Link to='/' className="text-xs text-black hover:underline italic font-normal">
-                            forgot password?
-                        </Link>
                     </Label>
                     <Input 
                         ref={passwordRef} // Add ref here

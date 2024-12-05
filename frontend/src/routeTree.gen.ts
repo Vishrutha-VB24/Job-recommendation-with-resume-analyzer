@@ -15,9 +15,12 @@ import { Route as RegisterImport } from './routes/register'
 import { Route as LoginImport } from './routes/login'
 import { Route as AuthenticatedImport } from './routes/_authenticated'
 import { Route as JobdescriptionImport } from './routes/Jobdescription'
-import { Route as IndexImport } from './routes/index'
+import { Route as AuthenticatedIndexImport } from './routes/_authenticated/index'
 import { Route as AuthenticatedUploadImport } from './routes/_authenticated/upload'
+import { Route as AuthenticatedRecommendationImport } from './routes/_authenticated/recommendation'
 import { Route as AuthenticatedProfileImport } from './routes/_authenticated/profile'
+import { Route as AuthenticatedJobUploadImport } from './routes/_authenticated/jobUpload'
+import { Route as AuthenticatedJobIdImport } from './routes/_authenticated/job.$id'
 
 // Create/Update Routes
 
@@ -44,10 +47,10 @@ const JobdescriptionRoute = JobdescriptionImport.update({
   getParentRoute: () => rootRoute,
 } as any)
 
-const IndexRoute = IndexImport.update({
+const AuthenticatedIndexRoute = AuthenticatedIndexImport.update({
   id: '/',
   path: '/',
-  getParentRoute: () => rootRoute,
+  getParentRoute: () => AuthenticatedRoute,
 } as any)
 
 const AuthenticatedUploadRoute = AuthenticatedUploadImport.update({
@@ -56,9 +59,28 @@ const AuthenticatedUploadRoute = AuthenticatedUploadImport.update({
   getParentRoute: () => AuthenticatedRoute,
 } as any)
 
+const AuthenticatedRecommendationRoute =
+  AuthenticatedRecommendationImport.update({
+    id: '/recommendation',
+    path: '/recommendation',
+    getParentRoute: () => AuthenticatedRoute,
+  } as any)
+
 const AuthenticatedProfileRoute = AuthenticatedProfileImport.update({
   id: '/profile',
   path: '/profile',
+  getParentRoute: () => AuthenticatedRoute,
+} as any)
+
+const AuthenticatedJobUploadRoute = AuthenticatedJobUploadImport.update({
+  id: '/jobUpload',
+  path: '/jobUpload',
+  getParentRoute: () => AuthenticatedRoute,
+} as any)
+
+const AuthenticatedJobIdRoute = AuthenticatedJobIdImport.update({
+  id: '/job/$id',
+  path: '/job/$id',
   getParentRoute: () => AuthenticatedRoute,
 } as any)
 
@@ -66,13 +88,6 @@ const AuthenticatedProfileRoute = AuthenticatedProfileImport.update({
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
-    '/': {
-      id: '/'
-      path: '/'
-      fullPath: '/'
-      preLoaderRoute: typeof IndexImport
-      parentRoute: typeof rootRoute
-    }
     '/Jobdescription': {
       id: '/Jobdescription'
       path: '/Jobdescription'
@@ -101,11 +116,25 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof RegisterImport
       parentRoute: typeof rootRoute
     }
+    '/_authenticated/jobUpload': {
+      id: '/_authenticated/jobUpload'
+      path: '/jobUpload'
+      fullPath: '/jobUpload'
+      preLoaderRoute: typeof AuthenticatedJobUploadImport
+      parentRoute: typeof AuthenticatedImport
+    }
     '/_authenticated/profile': {
       id: '/_authenticated/profile'
       path: '/profile'
       fullPath: '/profile'
       preLoaderRoute: typeof AuthenticatedProfileImport
+      parentRoute: typeof AuthenticatedImport
+    }
+    '/_authenticated/recommendation': {
+      id: '/_authenticated/recommendation'
+      path: '/recommendation'
+      fullPath: '/recommendation'
+      preLoaderRoute: typeof AuthenticatedRecommendationImport
       parentRoute: typeof AuthenticatedImport
     }
     '/_authenticated/upload': {
@@ -115,19 +144,41 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedUploadImport
       parentRoute: typeof AuthenticatedImport
     }
+    '/_authenticated/': {
+      id: '/_authenticated/'
+      path: '/'
+      fullPath: '/'
+      preLoaderRoute: typeof AuthenticatedIndexImport
+      parentRoute: typeof AuthenticatedImport
+    }
+    '/_authenticated/job/$id': {
+      id: '/_authenticated/job/$id'
+      path: '/job/$id'
+      fullPath: '/job/$id'
+      preLoaderRoute: typeof AuthenticatedJobIdImport
+      parentRoute: typeof AuthenticatedImport
+    }
   }
 }
 
 // Create and export the route tree
 
 interface AuthenticatedRouteChildren {
+  AuthenticatedJobUploadRoute: typeof AuthenticatedJobUploadRoute
   AuthenticatedProfileRoute: typeof AuthenticatedProfileRoute
+  AuthenticatedRecommendationRoute: typeof AuthenticatedRecommendationRoute
   AuthenticatedUploadRoute: typeof AuthenticatedUploadRoute
+  AuthenticatedIndexRoute: typeof AuthenticatedIndexRoute
+  AuthenticatedJobIdRoute: typeof AuthenticatedJobIdRoute
 }
 
 const AuthenticatedRouteChildren: AuthenticatedRouteChildren = {
+  AuthenticatedJobUploadRoute: AuthenticatedJobUploadRoute,
   AuthenticatedProfileRoute: AuthenticatedProfileRoute,
+  AuthenticatedRecommendationRoute: AuthenticatedRecommendationRoute,
   AuthenticatedUploadRoute: AuthenticatedUploadRoute,
+  AuthenticatedIndexRoute: AuthenticatedIndexRoute,
+  AuthenticatedJobIdRoute: AuthenticatedJobIdRoute,
 }
 
 const AuthenticatedRouteWithChildren = AuthenticatedRoute._addFileChildren(
@@ -135,69 +186,84 @@ const AuthenticatedRouteWithChildren = AuthenticatedRoute._addFileChildren(
 )
 
 export interface FileRoutesByFullPath {
-  '/': typeof IndexRoute
   '/Jobdescription': typeof JobdescriptionRoute
   '': typeof AuthenticatedRouteWithChildren
   '/login': typeof LoginRoute
   '/register': typeof RegisterRoute
+  '/jobUpload': typeof AuthenticatedJobUploadRoute
   '/profile': typeof AuthenticatedProfileRoute
+  '/recommendation': typeof AuthenticatedRecommendationRoute
   '/upload': typeof AuthenticatedUploadRoute
+  '/': typeof AuthenticatedIndexRoute
+  '/job/$id': typeof AuthenticatedJobIdRoute
 }
 
 export interface FileRoutesByTo {
-  '/': typeof IndexRoute
   '/Jobdescription': typeof JobdescriptionRoute
-  '': typeof AuthenticatedRouteWithChildren
   '/login': typeof LoginRoute
   '/register': typeof RegisterRoute
+  '/jobUpload': typeof AuthenticatedJobUploadRoute
   '/profile': typeof AuthenticatedProfileRoute
+  '/recommendation': typeof AuthenticatedRecommendationRoute
   '/upload': typeof AuthenticatedUploadRoute
+  '/': typeof AuthenticatedIndexRoute
+  '/job/$id': typeof AuthenticatedJobIdRoute
 }
 
 export interface FileRoutesById {
   __root__: typeof rootRoute
-  '/': typeof IndexRoute
   '/Jobdescription': typeof JobdescriptionRoute
   '/_authenticated': typeof AuthenticatedRouteWithChildren
   '/login': typeof LoginRoute
   '/register': typeof RegisterRoute
+  '/_authenticated/jobUpload': typeof AuthenticatedJobUploadRoute
   '/_authenticated/profile': typeof AuthenticatedProfileRoute
+  '/_authenticated/recommendation': typeof AuthenticatedRecommendationRoute
   '/_authenticated/upload': typeof AuthenticatedUploadRoute
+  '/_authenticated/': typeof AuthenticatedIndexRoute
+  '/_authenticated/job/$id': typeof AuthenticatedJobIdRoute
 }
 
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
-    | '/'
     | '/Jobdescription'
     | ''
     | '/login'
     | '/register'
+    | '/jobUpload'
     | '/profile'
+    | '/recommendation'
     | '/upload'
+    | '/'
+    | '/job/$id'
   fileRoutesByTo: FileRoutesByTo
   to:
-    | '/'
     | '/Jobdescription'
-    | ''
     | '/login'
     | '/register'
+    | '/jobUpload'
     | '/profile'
+    | '/recommendation'
     | '/upload'
+    | '/'
+    | '/job/$id'
   id:
     | '__root__'
-    | '/'
     | '/Jobdescription'
     | '/_authenticated'
     | '/login'
     | '/register'
+    | '/_authenticated/jobUpload'
     | '/_authenticated/profile'
+    | '/_authenticated/recommendation'
     | '/_authenticated/upload'
+    | '/_authenticated/'
+    | '/_authenticated/job/$id'
   fileRoutesById: FileRoutesById
 }
 
 export interface RootRouteChildren {
-  IndexRoute: typeof IndexRoute
   JobdescriptionRoute: typeof JobdescriptionRoute
   AuthenticatedRoute: typeof AuthenticatedRouteWithChildren
   LoginRoute: typeof LoginRoute
@@ -205,7 +271,6 @@ export interface RootRouteChildren {
 }
 
 const rootRouteChildren: RootRouteChildren = {
-  IndexRoute: IndexRoute,
   JobdescriptionRoute: JobdescriptionRoute,
   AuthenticatedRoute: AuthenticatedRouteWithChildren,
   LoginRoute: LoginRoute,
@@ -224,15 +289,11 @@ export const routeTree = rootRoute
     "__root__": {
       "filePath": "__root.tsx",
       "children": [
-        "/",
         "/Jobdescription",
         "/_authenticated",
         "/login",
         "/register"
       ]
-    },
-    "/": {
-      "filePath": "index.tsx"
     },
     "/Jobdescription": {
       "filePath": "Jobdescription.tsx"
@@ -240,8 +301,12 @@ export const routeTree = rootRoute
     "/_authenticated": {
       "filePath": "_authenticated.tsx",
       "children": [
+        "/_authenticated/jobUpload",
         "/_authenticated/profile",
-        "/_authenticated/upload"
+        "/_authenticated/recommendation",
+        "/_authenticated/upload",
+        "/_authenticated/",
+        "/_authenticated/job/$id"
       ]
     },
     "/login": {
@@ -250,12 +315,28 @@ export const routeTree = rootRoute
     "/register": {
       "filePath": "register.tsx"
     },
+    "/_authenticated/jobUpload": {
+      "filePath": "_authenticated/jobUpload.tsx",
+      "parent": "/_authenticated"
+    },
     "/_authenticated/profile": {
       "filePath": "_authenticated/profile.tsx",
       "parent": "/_authenticated"
     },
+    "/_authenticated/recommendation": {
+      "filePath": "_authenticated/recommendation.tsx",
+      "parent": "/_authenticated"
+    },
     "/_authenticated/upload": {
       "filePath": "_authenticated/upload.tsx",
+      "parent": "/_authenticated"
+    },
+    "/_authenticated/": {
+      "filePath": "_authenticated/index.tsx",
+      "parent": "/_authenticated"
+    },
+    "/_authenticated/job/$id": {
+      "filePath": "_authenticated/job.$id.tsx",
       "parent": "/_authenticated"
     }
   }

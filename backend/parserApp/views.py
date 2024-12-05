@@ -6,15 +6,100 @@ import os
 from PyPDF2 import PdfReader
 import json
 from django.views.decorators.csrf import csrf_exempt
+from sklearn.feature_extraction.text import TfidfVectorizer
+from sklearn.metrics.pairwise import cosine_similarity
+
+def calculate_similarity(dict1, dict2, weights=None):
+    # Default weights for skills, experience, and type
+    if weights is None:
+        weights = {
+            'skills': 0.5,
+            'experience': 0.3,
+            'type': 0.2
+        }
+
+    # Extract attributes
+    skills1 = " ".join(dict1.get('skills', []))
+    skills2 = " ".join(dict2.get('skills', []))
+
+
+    exp1 = int(dict1.get('exp', ''))
+    exp2 = int(dict2.get('exp', ''))
+    print(exp1)
+    print(exp2)
+
+    type1 = str(dict1.get('type', ''))
+    type2 = str(dict2.get('type', ''))
+
+    vectorizer = TfidfVectorizer()
+
+    skills_matrix = vectorizer.fit_transform([skills1, skills2])
+    skills_similarity = cosine_similarity(skills_matrix[0], skills_matrix[1])[0, 0]
+
+    # Calculate similarity for experience
+    max_exp = max(exp1, exp2, 1)  # Avoid division by zero
+    exp_similarity = 1 - abs(exp1 - exp2) / max_exp
+
+    # Calculate similarity for type
+    type_matrix = vectorizer.fit_transform([type1, type2])
+    type_similarity = cosine_similarity(type_matrix[0], type_matrix[1])[0, 0]
+
+    # Weighted sum of similarities
+    similarity = (
+            weights['skills'] * skills_similarity +
+            weights['experience'] * exp_similarity +
+            weights['type'] * type_similarity
+    )
+
+    # Convert to percentage
+    similarity_percentage = similarity * 100
+
+    return similarity_percentage
+
+
 
 appwrite_client = AppwriteClient()
 
 @csrf_exempt
+def recommend(request):
+    if request.method == 'POST':
+        try:
+            data = json.loads(request.body)
+            user_id = data.get('user_id')  # Extract the user_id from the JSON
+
+            if not user_id:
+                return JsonResponse({'error': 'user_id is required'}, status=400)
+
+            user_info = appwrite_client.get_user_info(user_id)
+            all_jobs = appwrite_client.list_all_jobs()
+            similarities = []
+
+            for job in all_jobs:
+                similarity = calculate_similarity(user_info, {'skills': job.get('skills'), 'exp': job.get('exp'), 'type': job.get('type')})
+                similarities.append({
+                    'job_id': job.get('$id'),
+                    'title': job.get('title'),
+                    'similarity': similarity,
+                    'company': job.get('company')
+                })
+
+            similarities = sorted(similarities, key=lambda x: x['similarity'], reverse=True)
+
+            return JsonResponse({"recommendations": similarities})
+
+        except json.JSONDecodeError:
+            return JsonResponse({'error': 'Invalid JSON'}, status=400)
+    else:
+        return JsonResponse({'error': 'Method not allowed'}, status=405)
+
+@csrf_exempt
 def parse_resume(request):
+    print("hi")
     if request.method == "POST":
         data = json.loads(request.body)
 
         file_id = data.get("file_id")
+        print(file_id)
 
         if not file_id:
             return JsonResponse({"error": "file_id is required"}, status=400)
@@ -49,11 +134,11 @@ def parse_resume(request):
 def create_job_posting(request):
     if request.method == "POST":
         try:
-            # Parse form data
-            title = request.POST.get("title")
-            description = request.POST.get("description")
-            company = request.POST.get("company")
 
+            data = json.loads(request.body)
+            title = data.get('title')
+            description = data.get('description')
+            company = data.get('company')
             if not title or not description:
                 return JsonResponse({"error": "Title and description are required"}, status=400)
 
