@@ -21,6 +21,14 @@ export class DBService {
       throw error;
     }
   }
+  async deleteDocument(collectionId:string, documentId:string) {
+    try {
+      return await this.database.deleteDocument(this.databaseId, collectionId, documentId);
+    } catch (error) {
+      console.error("Error fetching document:", error);
+      throw error;
+    }
+  }
 
   async listAllDocuments(collectionId:string) {
     try {

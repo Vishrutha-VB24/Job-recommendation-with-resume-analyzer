@@ -19,15 +19,18 @@ export const Navbar: React.FC = () => {
         </div>
         <div className="navlist">
           <ul className="flex gap-5">
-            <li>
-              <Link
-                to="/"
-                className={`${activeLink === 'home' ? 'font-bold' : ''}`}
-                onClick={() => handleLinkClick('home')}
-              >
-                HOME
-              </Link>
-            </li>
+            {
+              userInfo &&
+              <li>
+                <Link
+                  to="/"
+                  className={`${activeLink === 'home' ? 'font-bold' : ''}`}
+                  onClick={() => handleLinkClick('home')}
+                >
+                  HOME
+                </Link>
+              </li>
+            }
             {
               !userInfo &&
                 <>

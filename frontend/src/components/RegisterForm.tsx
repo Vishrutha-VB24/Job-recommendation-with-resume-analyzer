@@ -68,7 +68,7 @@ export default function Register() {
           <p className="mt-4 text-center text-sm text-gray-600 col-span-2">
             New around here?{" "}
             <a href="/login" className="text-blue-600 hover:underline">
-              Sign up
+              Sign in
             </a>
           </p>
         </CardFooter>

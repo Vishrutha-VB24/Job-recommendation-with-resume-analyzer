@@ -6,7 +6,7 @@ export const Route = createFileRoute('/register')({
 
 function register(){
   return(
-    <div className='flex justify-center h-screen flex-col items-center bg-white ' style={{ 
+    <div className='flex justify-center h-[calc(100vh-3.5rem)] flex-col items-center bg-white ' style={{
 
        }}>
       <RegisterForm></RegisterForm>

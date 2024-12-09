@@ -8,6 +8,7 @@ import dbService from "@/appwrite/db.ts";
 import conf from '../conf/conf.ts'
 import useAuthStore from "@/store/authStore.ts";
 import {useNavigate} from "@tanstack/react-router";
+import {Query} from "appwrite";
 
 export default function Upload() {
     const fileRef = useRef<HTMLInputElement>(null);
@@ -70,7 +71,11 @@ export default function Upload() {
                 exp: parsed.exp,
                 userId: userInfo.$id
             };
-
+            const pervDoc = await dbService.listDocumentsWithQuery(conf.appWriteUserCollectionId, [Query.equal('userId',[ userInfo.$id])] )
+            console.log(pervDoc);
+            if(pervDoc.total > 0){
+                await dbService.deleteDocument(conf.appWriteUserCollectionId, pervDoc.documents[0].$id)
+            }
             const document = await dbService.createDocument(collectionId, documentData);
             console.log("Resume data saved to database:", document);
             navigate({to: '/recommendation'});

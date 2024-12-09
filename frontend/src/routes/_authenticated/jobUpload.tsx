@@ -1,6 +1,6 @@
 import { createFileRoute } from '@tanstack/react-router';
 import axios from 'axios';
-import { useState } from 'react';
+import {useEffect, useState} from 'react';
 import {Button} from '@/components/ui/button.tsx'
 import {Input} from '@/components/ui/input.tsx'
 import {Label} from "@/components/ui/label.tsx"
@@ -32,6 +32,9 @@ function jobUpload() {
       setMessage('Failed to upload job. Please try again.');
     }
   };
+  useEffect(() => {
+    alert('Job upload Succesfully')
+  }, [])
 
   return (
     <div className="h-[calc(100vh-3.5rem)] w-full justify-center flex items-center">
