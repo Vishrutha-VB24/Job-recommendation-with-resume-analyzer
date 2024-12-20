@@ -20,4 +20,4 @@ A final year major group project by Rashmitha R 4SU21CS078, Sameeksha Alawandi 4
 
 ### Trouble shooting
 - Check vite.config file in the fontend to ensure the proxy is matching the port of the backend django server.
-- If the api keys are expired check the following link.
+- If the api keys are expired check the following link https://github.com/Vishrutha-VB24/Job-recommendation-with-resume-analyzer
