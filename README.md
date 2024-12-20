@@ -1,5 +1,5 @@
 # Job-recommendation-with-resume-analyzer
-A final year major group project Rashmitha R 4SU21CS078, Sameeksha Alawandi 4SU21CS082, Srujan J 4SU21CS104, Vishrutha V B 4SU21CS124
+A final year major group project by Rashmitha R 4SU21CS078, Sameeksha Alawandi 4SU21CS082, Srujan J 4SU21CS104, Vishrutha V B 4SU21CS124
 
 ## Requirements
 - Python 3 for the django server
